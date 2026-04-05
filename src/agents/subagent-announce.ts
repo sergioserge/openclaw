@@ -1071,6 +1071,12 @@ export async function runSubagentAnnounceFlow(params: {
   signal?: AbortSignal;
   bestEffortDeliver?: boolean;
 }): Promise<boolean> {
+  // sessions_spawn mode=run returns the result inline; suppress the announce to avoid
+  // a double message. Distinguishing signal: spawnMode="run" + expectsCompletionMessage
+  // explicitly false (default one-shot spawns leave it true).
+  if (params.spawnMode === "run" && params.expectsCompletionMessage !== true) {
+    return false;
+  }
   let didAnnounce = false;
   const expectsCompletionMessage = params.expectsCompletionMessage === true;
   let shouldDeleteChildSession = params.cleanup === "delete";

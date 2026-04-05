@@ -309,6 +309,9 @@ export async function dispatchCronDelivery(
         timeoutMs: params.timeoutMs,
         cleanup: params.job.deleteAfterRun ? "delete" : "keep",
         roundOneReply: synthesizedText,
+        // Cron announce is user-facing: use direct-send path (method: "send") rather
+        // than injecting into the agent queue (which only works when the session is active).
+        expectsCompletionMessage: true,
         // Keep delivery outcome truthful for cron state: if outbound send fails,
         // announce flow must report false so caller can apply best-effort policy.
         bestEffortDeliver: false,

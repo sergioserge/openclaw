@@ -62,10 +62,6 @@ USER root
 RUN ln -sf /app/openclaw.mjs /usr/local/bin/openclaw \
  && chmod 755 /app/openclaw.mjs
 
-# Install gog (Google Workspace CLI) — linux_amd64; update version here when upgrading.
-RUN curl -fsSL https://github.com/steipete/gogcli/releases/download/v0.11.0/gogcli_0.11.0_linux_amd64.tar.gz \
-    | tar -xz -C /usr/local/bin gog \
-    && chmod 755 /usr/local/bin/gog
 
 ENV NODE_ENV=production
 

@@ -94,6 +94,12 @@ function buildCompletionDeliveryMessage(params: {
   if (!hasFindings) {
     return header;
   }
+  // For successful completions with output, deliver the findings directly without
+  // a "Subagent finished" header — it reads more naturally in chat channels.
+  const isSuccess = !params.outcome?.status || params.outcome.status === "ok";
+  if (isSuccess) {
+    return findingsText;
+  }
   return `${header}\n\n${findingsText}`;
 }
 
